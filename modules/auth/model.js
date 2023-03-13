@@ -6,18 +6,23 @@ const User = mongoose.model(
     {
       name: {
         type: String,
-        required: [true, "Please provide a name"],
+        required: true,
+      },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
       },
       password: {
         type: String,
-        minlength: [6, "Please provide a password with min length 6"],
-        required: [true, "Please provide a password"],
-        select: false,
+        required: true,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
       },
     },
-    {
-      timestamps: true,
-    }
+    { timestamps: true }
   )
 );
 

@@ -1,4 +1,6 @@
 import express from "express";
+import authRouter from "./modules/auth/routes.js";
+
 const app = express();
 const port = process.env.port || 3000;
 import cors from "cors";
@@ -18,6 +20,8 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+
+app.use("/auth", authRouter);
 
 app.post("/", (req, res) => {
   res.json({ body: req.body });
