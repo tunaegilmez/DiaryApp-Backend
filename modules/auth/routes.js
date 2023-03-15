@@ -12,8 +12,11 @@ router.post(
   Controller.addUser
 );
 
-router.post("/login", (req, res) => {
-  res.send("Login");
-});
+router.post(
+  "/login",
+  body(["email", "password"]).exists(),
+  validator,
+  Controller.login
+);
 
 export default router;
