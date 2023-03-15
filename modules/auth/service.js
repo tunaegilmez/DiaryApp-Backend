@@ -1,5 +1,6 @@
 import Model from "./model.js";
 import { hashPassword, checkPassword } from "../utilities/bcrypt.js";
+import Jwt from "jsonwebtoken";
 
 const getUserByEmail = async email => {
   return Model.User.findOne({ email });
@@ -39,6 +40,21 @@ const login = async (email, password) => {
         })
       );
     }
+
+    const token = Jwt.sign(
+      {
+        type: "user",
+        _id: userExists._id,
+        email: userExists.email,
+      },
+      process.env.JWT_CODE
+    );
+
+    return {
+      token,
+      userId: userExists._id,
+      username: userExists.email,
+    };
   } catch (error) {
     console.log("login error", error.message);
     throw new Error(error.message);

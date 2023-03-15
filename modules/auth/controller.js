@@ -1,8 +1,18 @@
 import Service from "./service.js";
 import Joi from "@hapi/joi";
 
+const loginSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+});
+
 const login = async (req, res) => {
   const { email, password } = req.body;
+  const { error } = loginSchema.validate(req.body);
+  if (error) {
+    res.status(400).send(error.details[0].message);
+    return;
+  }
   if (!email && !password) {
     return res.json({
       status: false,
