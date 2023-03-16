@@ -3,15 +3,18 @@ const router = express.Router();
 import Controller from "./controller.js";
 import { body, query, param } from "express-validator";
 import validator from "../middlewares/validator.js";
+import verifyToken from "../middlewares/verifyToken.js";
 
 router.get(
   "/",
+  verifyToken,
   query(["limit", "skip"]).optional(),
   validator,
   Controller.getDiaries
 );
 router.get(
   "/:diaryId",
+  verifyToken,
   param("diaryId").exists(),
   validator,
   Controller.getDiary
@@ -19,6 +22,7 @@ router.get(
 
 router.post(
   "/",
+  verifyToken,
   body(["title", "description"]).exists(),
   validator,
   Controller.addDiary
@@ -26,6 +30,7 @@ router.post(
 
 router.patch(
   "/:diaryId",
+  verifyToken,
   param("diaryId").exists(),
   body(["title", "description"]).exists(),
   validator,
@@ -34,6 +39,7 @@ router.patch(
 
 router.delete(
   "/:diaryId",
+  verifyToken,
   param("diaryId").exists(),
   validator,
   Controller.deleteDiary

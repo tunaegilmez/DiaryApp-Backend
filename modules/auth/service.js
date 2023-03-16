@@ -10,7 +10,20 @@ const addUser = async (name, email, password) => {
   if (password) {
     password = await hashPassword(password);
   }
-  return new Model.User({ name, email, password }).save();
+
+  let savedUser = await new Model.User({ name, email, password }).save();
+
+  console.log("savedUser", savedUser);
+  const token = Jwt.sign(
+    {
+      type: "user",
+      _id: savedUser?._id?.toString(),
+      email: email,
+    },
+    process.env.JWT_CODE
+  );
+
+  return { savedUser, token };
 };
 
 const login = async (email, password) => {
@@ -44,7 +57,7 @@ const login = async (email, password) => {
     const token = Jwt.sign(
       {
         type: "user",
-        _id: userExists._id,
+        _id: userExists?._id?.toString(),
         email: userExists.email,
       },
       process.env.JWT_CODE

@@ -51,7 +51,7 @@ const addUser = async (req, res) => {
   }
   try {
     let addedUser = await Service.addUser(name, email, password);
-    return res.json({ status: true, addedUser });
+    return res.json({ status: true, ...addedUser });
   } catch (error) {
     console.log("addUser error", error.message);
   }

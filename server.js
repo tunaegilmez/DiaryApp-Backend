@@ -23,7 +23,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
-
 app.post("/", (req, res) => {
   res.json({ body: req.body });
 });

@@ -3,12 +3,14 @@ import Service from "./service.js";
 const addDiary = async (req, res) => {
   const { title, description } = req.body;
 
+  console.log(req.userId, "----diaries file");
+
   try {
     let addedDiary = await Service.addDiary(title, description);
 
     return res.json({ status: true, addedDiary });
   } catch (error) {
-    console.log("addDiary error", error.message);
+    console.log("addDiary error", error);
   }
 };
 
